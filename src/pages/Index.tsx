@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
 
 interface Player {
@@ -183,8 +185,8 @@ const PlayerCard = ({ player, position }: { player: Player; position: number }) 
           </div>
 
           {/* Аватар и статус */}
-          <div className="flex-shrink-0 relative">
-            <div className="w-16 h-16 rounded-lg overflow-hidden border-2 border-border">
+          <Link to={`/profile/${player.username}`} className="flex-shrink-0 relative group/avatar">
+            <div className="w-16 h-16 rounded-lg overflow-hidden border-2 border-border group-hover/avatar:border-primary transition-colors">
               <img 
                 src={player.avatar} 
                 alt={player.username}
@@ -194,12 +196,14 @@ const PlayerCard = ({ player, position }: { player: Player; position: number }) 
             <div className={`absolute -top-1 -right-1 w-4 h-4 rounded-full border-2 border-background ${
               player.isOnline ? 'bg-green-500' : 'bg-gray-500'
             }`} />
-          </div>
+          </Link>
 
           {/* Основная информация */}
           <div className="flex-grow">
             <div className="flex items-center gap-2 mb-2">
-              <h3 className="text-lg font-bold text-foreground">{player.username}</h3>
+              <Link to={`/profile/${player.username}`} className="hover:text-primary transition-colors">
+                <h3 className="text-lg font-bold text-foreground">{player.username}</h3>
+              </Link>
               <Badge className={`${getRankColor(player.rank)} text-black font-bold px-2 py-1`}>
                 {player.rank}
               </Badge>
@@ -315,12 +319,20 @@ export default function Index() {
         </div>
 
         {/* Top Players */}
-        <div className="mb-6">
-          <h2 className="text-xl font-bold text-foreground mb-2 flex items-center gap-2">
-            <Icon name="Crown" className="text-primary" />
-            Топ-10 игроков
-          </h2>
-          <p className="text-muted-foreground">Лучшие игроки сервера по общему рейтингу</p>
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h2 className="text-xl font-bold text-foreground mb-2 flex items-center gap-2">
+              <Icon name="Crown" className="text-primary" />
+              Топ-10 игроков
+            </h2>
+            <p className="text-muted-foreground">Лучшие игроки сервера по общему рейтингу</p>
+          </div>
+          <Link to="/profile/create">
+            <Button className="bg-primary hover:bg-primary/90">
+              <Icon name="UserPlus" size={16} className="mr-2" />
+              Создать профиль
+            </Button>
+          </Link>
         </div>
 
         <div className="space-y-4">
